@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {SafeAreaView, StyleSheet, Text, View, Image} from 'react-native';
-
+import NetInfo from '@react-native-community/netinfo';
 export default function Splash(props) {
   const callPage = () => {
     setTimeout(() => {
@@ -11,6 +11,29 @@ export default function Splash(props) {
   useEffect(() => {
     callPage();
   }, []);
+  // useEffect(() => {
+  //   NetInfo.fetch().then(networkState => {
+  //     // console.log('Connection type - ', networkState.type);
+  //     // console.log('Is connected? - ', networkState.isConnected);
+  //     // networkState.isConnected == true
+  //     //   ? props.navigation.navigate('')
+  //     //   : props.navigation.navigate('NoConnection');
+  //     networkState.isConnected == true
+  //       ? props.navigation.navigate('')
+  //       : props.navigation.navigate('NoConnection');
+  //   });
+  // }, []);
+
+  NetInfo.fetch().then(networkState => {
+    // console.log('Connection type - ', networkState.type);
+    // console.log('Is connected? - ', networkState.isConnected);
+    // networkState.isConnected == true
+    //   ? props.navigation.navigate('')
+    //   : props.navigation.navigate('NoConnection');
+    networkState.isConnected == true
+      ? props.navigation.navigate('')
+      : props.navigation.navigate('NoConnection');
+  });
   return (
     <SafeAreaView>
       <View style={{width: '100%', height: '100%', backgroundColor: '#000'}}>
@@ -58,5 +81,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 14,
     lineHeight: 22,
+    fontFamily: 'Roboto-Light',
   },
 });

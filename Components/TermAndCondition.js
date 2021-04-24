@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -8,8 +8,27 @@ import {
   TouchableOpacity,
   Linking,
 } from 'react-native';
+import NetInfo from '@react-native-community/netinfo';
 import ScreenHeader from './ScreenHeader';
 export default function TermAndCondition(props) {
+  // useEffect(() => {
+  //   NetInfo.fetch().then(networkState => {
+  //     // console.log('Connection type - ', networkState.type);
+  //     // console.log('Is connected? - ', networkState.isConnected);
+  //     networkState.isConnected == true
+  //       ? props.navigation.navigate('')
+  //       : props.navigation.navigate('NoConnection');
+  //   });
+  // }, []);
+
+  NetInfo.fetch().then(networkState => {
+    // console.log('Connection type - ', networkState.type);
+    // console.log('Is connected? - ', networkState.isConnected);
+    networkState.isConnected == true
+      ? props.navigation.navigate('')
+      : props.navigation.navigate('NoConnection');
+  });
+
   return (
     <SafeAreaView
     //  style={{flex: 1}}
@@ -45,7 +64,9 @@ export default function TermAndCondition(props) {
 
         <View style={styles.textView}>
           <View style={{marginTop: 15}}>
-            <Text style={{color: '#FFF'}}>By Clicking "Agree"</Text>
+            <Text style={{color: '#FFF', fontFamily: 'Roboto-Light'}}>
+              By Clicking "Agree"
+            </Text>
           </View>
           <View
             style={{

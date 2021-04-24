@@ -17,10 +17,11 @@ import Splash from './Components/Splash';
 import NoConnection from './Components/NoConnection';
 import Home from './Components/Home';
 import videoLearn from './Components/videoLearn';
-
+import Home1 from './Components/Home1';
+import MultiTypeSlider from './Components/MultiTypeSlider';
 const Stack = createStackNavigator();
 
-export default function App() {
+export default function App(props) {
   console.disableYellowBox = true;
   return (
     // <View style={{flex: 1}}>
@@ -38,17 +39,24 @@ export default function App() {
           options={{headerShown: false}}
         />
         <Stack.Screen name="ScreenHeader" component={ScreenHeader} />
-        <Stack.Screen
-          name="NoConnection"
-          component={NoConnection}
-          options={{headerShown: false}}
-        />
+
         <Stack.Screen
           name="Home"
           component={Home}
           options={{headerShown: false}}
         />
 
+        <Stack.Screen
+          name="NoConnection"
+          component={NoConnection}
+          options={{headerShown: false}}
+        />
+
+        {/* <Stack.Screen
+          name="MultiTypeSlider"
+          component={MultiTypeSlider}
+          options={{headerShown: false}}
+        /> */}
         {/* <Stack.Screen
           name="video"
           component={videoLearn}

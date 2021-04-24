@@ -11,7 +11,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-
+import com.reactnativecommunity.geolocation.GeolocationPackage;
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost =
@@ -40,6 +40,14 @@ public class MainApplication extends Application implements ReactApplication {
   public ReactNativeHost getReactNativeHost() {
     return mReactNativeHost;
   }
+
+//   @Override
+// protected List<ReactPackage> getPackages() {
+//     return Arrays.asList(
+//             new MainReactPackage(),
+//             new GeolocationPackage()
+//     );
+// }
 
   @Override
   public void onCreate() {

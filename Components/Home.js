@@ -26,6 +26,7 @@ const ITEM_HEIGHT = Math.round((ITEM_WIDTH * 3) / 4);
 import NetInfo from '@react-native-community/netinfo';
 
 import MediaControls, {PLAYER_STATES} from 'react-native-media-controls';
+import {call, Value} from 'react-native-reanimated';
 
 const Data = [
   {
@@ -73,8 +74,6 @@ function Item({item}) {
   const [getMapVideoValue, setMapVideoValue] = React.useState([]);
   const [screenTypeAudio, setScreenTypeAudio] = useState('content');
   const [getAudio, setAudio] = useState(false);
-
-  // console.log('insideitemcomponent', item);
 
   ////////////////////////////// Video Function start /////////////////////////
 
@@ -376,7 +375,8 @@ function Item({item}) {
         ) : null}
       </View>
       {(item.type == 'audio' && item.type == 'video') ||
-      getAudio == true ? null : (
+      getAudio == true ||
+      item.type == 'report' ? null : (
         <View
           style={{
             position: 'absolute',
@@ -407,7 +407,7 @@ function Item({item}) {
               source={require('../images/user.png')}
               style={{height: 20, width: 15, resizeMode: 'contain'}}
             />
-            <Text style={{color: '#FFF', marginLeft: 10}}>{item.fullname}</Text>
+            <Text style={{color: '#FFF', marginLeft: 10}}>Michael_23</Text>
           </View>
           <View style={{marginTop: 3, marginLeft: 12, flexDirection: 'row'}}>
             <Image
@@ -428,9 +428,7 @@ const wait = timeout => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 };
 
-const _renderItem = ({item, index, getindex, onSnapToItem, carousel}) => {
-  // console.log(index, getindex);
-
+const _renderItem = ({item, index, getindex}) => {
   const videoPlayer = useRef(null);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -449,11 +447,11 @@ const _renderItem = ({item, index, getindex, onSnapToItem, carousel}) => {
   const [playerStateAudio, setPlayerStateAudio] = useState(
     PLAYER_STATES.PLAYING,
   );
-  const [getMapAudioValue, setMapAudioValue] = React.useState([]);
-  const [getMapVideoValue, setMapVideoValue] = React.useState([]);
+
   const [screenTypeAudio, setScreenTypeAudio] = useState('content');
   const [getAudio, setAudio] = useState(false);
-  const [getpaused, setgoPaused] = useState(false);
+
+  console.log('kkkkkkk', item);
 
   ////////////////////////////// Video Function start /////////////////////////
 
@@ -548,14 +546,17 @@ const _renderItem = ({item, index, getindex, onSnapToItem, carousel}) => {
     setAudio(true);
   };
 
+  const callFunction = () => {
+    Alert.alert('', 'Data has been Updated', [
+      {text: 'OK', onPress: () => console.log('OK Pressed')},
+    ]);
+  };
+
   return (
     <View
       style={{
         width: '100%',
         height: '100%',
-
-        // backgroundColor: 'red',
-        // overflow: 'hidden',
       }}>
       <View
         style={{
@@ -564,6 +565,7 @@ const _renderItem = ({item, index, getindex, onSnapToItem, carousel}) => {
           borderRadius: 10,
           // backgroundColor: 'red',
           // overflow: 'hidden',
+          // flexDirection: 'row',
         }}>
         {item.type == 'image' ? (
           <Image
@@ -598,7 +600,7 @@ const _renderItem = ({item, index, getindex, onSnapToItem, carousel}) => {
               {item.pic}
             </Text>
           </View>
-        ) : item.type == 'audio' ? (
+        ) : item.type == 'audio/mpeg' ? (
           getAudio ? (
             <View
               style={{
@@ -616,7 +618,7 @@ const _renderItem = ({item, index, getindex, onSnapToItem, carousel}) => {
                 // resizeMode="contain"
 
                 source={{
-                  uri: item.pic,
+                  uri: item.slide.files,
                 }}
                 onEnd={onEndAudio}
                 onLoad={onLoadAudio}
@@ -677,7 +679,7 @@ const _renderItem = ({item, index, getindex, onSnapToItem, carousel}) => {
               </TouchableOpacity>
             </View>
           )
-        ) : item.type == 'video' ? (
+        ) : item.slide.type == 'video/mp4' ? (
           getAudio ? (
             <View
               style={{
@@ -692,7 +694,7 @@ const _renderItem = ({item, index, getindex, onSnapToItem, carousel}) => {
                 // resizeMode="contain"
 
                 source={{
-                  uri: item.pic,
+                  uri: item.slide.type,
                 }}
                 onEnd={onEnd}
                 onLoad={onLoad}
@@ -759,7 +761,10 @@ const _renderItem = ({item, index, getindex, onSnapToItem, carousel}) => {
 
               paddingHorizontal: 25,
             }}>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                callFunction();
+              }}>
               <Text
                 style={{
                   fontSize: 15,
@@ -772,14 +777,16 @@ const _renderItem = ({item, index, getindex, onSnapToItem, carousel}) => {
                   // alignSelf: 'center',
                   // paddingHorizontal: 10,s
                 }}>
-                {item.pic}
+                {item.files}
               </Text>
             </TouchableOpacity>
           </View>
         ) : null}
       </View>
-      {(item.type == 'audio' && item.type == 'video') ||
-      getAudio == true ? null : (
+
+      {(item.type == 'audio/mpeg' && item.type == 'video/mp4') ||
+      getAudio == true ||
+      item.type == 'report' ? null : (
         <View
           style={{
             width: '100%',
@@ -815,7 +822,7 @@ const _renderItem = ({item, index, getindex, onSnapToItem, carousel}) => {
               source={require('../images/user.png')}
               style={{height: 20, width: 15, resizeMode: 'contain'}}
             />
-            <Text style={{color: '#FFF', marginLeft: 10}}>Michael_323</Text>
+            <Text style={{color: '#FFF', marginLeft: 10}}>{item.fullname}</Text>
           </View>
           <View
             style={{
@@ -828,7 +835,9 @@ const _renderItem = ({item, index, getindex, onSnapToItem, carousel}) => {
               source={require('../images/calender.png')}
               style={{height: 20, width: 15, resizeMode: 'contain'}}
             />
-            <Text style={{color: '#FFF', marginLeft: 10}}>2021/03/22</Text>
+            <Text style={{color: '#FFF', marginLeft: 10}}>
+              {item.created_at.slice(0, 10)}
+            </Text>
           </View>
         </View>
       )}
@@ -845,40 +854,43 @@ export default function Home(props) {
 
   const [getindex, setIndex] = React.useState(0);
   // const [getDisable, setDisable] = React.useState(false);
-  // const [getAudio, setAudio] = useState(false);
+  const [getAudio, setAudio] = useState(false);
 
   const [getitem, setItem] = React.useState([
-    {type: 'image', id: 1, pic: require('../images/shake1.png')},
-    {
-      type: 'text',
-      id: 2,
-      // pic: require('../images/text1.png'),
-      pic:
-        'Lorem ipsum dolor sit amet, consetetursadips elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed ia voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est.',
-    },
-
-    {type: 'image', id: 4, pic: require('../images/video1.png')},
-    {
-      type: 'audio',
-      id: 5,
-      pic: 'https://soundbible.com/mp3/45min_april_rainstorm-mike-koenig.mp3',
-    },
-    {
-      type: 'audio',
-      id: 6,
-      pic: 'https://soundbible.com/mp3/45min_april_rainstorm-mike-koenig.mp3',
-    },
-    {
-      type: 'video',
-      id: 7,
-      pic: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
-    },
-    {
-      type: 'video',
-      id: 8,
-      pic: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
-    },
-    {type: 'report', id: 9, pic: 'Report inappropriate Post..'},
+    // {
+    //   fullname: 'Saurabh Gupta',
+    //   slide: [
+    //     {
+    //       type: 'video/mp4',
+    //       files:
+    //         'https://digimonk.xyz/fileupload/1618986085232-bezkoder-BMW Matalab Full Screen Funny-(MirchiStatus.com).mp4',
+    //     },
+    //     {
+    //       type: 'video/mp4',
+    //       files:
+    //         'https://digimonk.xyz/fileupload/1618986085232-bezkoder-BMW Matalab Full Screen Funny-(MirchiStatus.com).mp4',
+    //     },
+    //   ],
+    //   created_at: '2021-04-21T06:21:25.000Z',
+    //   report: 'report',
+    // },
+    // {
+    //   fullname: 'Sonam Gupta',
+    //   slide: [
+    //     {
+    //       type: 'video/mp4',
+    //       files:
+    //         'https://digimonk.xyz/fileupload/1618986085232-bezkoder-BMW Matalab Full Screen Funny-(MirchiStatus.com).mp4',
+    //     },
+    //     {
+    //       type: 'video/mp4',
+    //       files:
+    //         'https://digimonk.xyz/fileupload/1618986085232-bezkoder-BMW Matalab Full Screen Funny-(MirchiStatus.com).mp4',
+    //     },
+    //   ],
+    //   created_at: '2021-04-20T06:21:25.000Z',
+    //   report: 'report',
+    // },
   ]);
 
   const [getitem1, setItem1] = React.useState([
@@ -935,13 +947,12 @@ export default function Home(props) {
       info => {
         setLatitude(info.coords.latitude);
         setLongitude(info.coords.longitude);
-        // callApiFunction(info.coords.latitude, info.coords.longitude);
+        callApiFunction(info.coords.latitude, info.coords.longitude);
       },
 
-      // console.log('infooooooooooo', info,coords.latitude, '-', info.longitude),
       // setGetLocation(info),
     );
-  }, []);
+  }, [refreshing]);
 
   const callApiFunction = (lati, longi) => {
     axios({
@@ -956,16 +967,20 @@ export default function Home(props) {
       },
     })
       .then(async response => {
-        var data = response;
-        // console.log('1111', data.data.result1);
+        data = response;
+        // let a = {
+        //   type: 'report',
+        //   files: 'Block inappropriate Post',
+        // };
 
-        setItem(data.data.result1);
-        // this.setState({loading: false});
+        // let completeData = data.data.result1.concat(a);
 
-        // console.log('DATASTATUS', data.data.getUserPostList);
+        console.log('ddd', data);
+
+        setItem(data);
+        console.log('getData', getitem);
 
         if (data.status == '200') {
-          // console.log('get', getitem);
         }
       })
       .catch(e => {
@@ -980,15 +995,17 @@ export default function Home(props) {
 
   const increaseIndex = () => {
     carousel._snapToItem(getindex + 1);
-    // setAudio(false);
-    // setPlayerStateAudio(PLAYER_STATES.PLAYING);
+    setAudio(false);
   };
 
   const decreaseIndex = () => {
     carousel._snapToItem(getindex - 1);
-    // setAudio(false);
-    // setPlayerStateAudio(PLAYER_STATES.PLAYING);
+    setAudio(false);
   };
+
+  // getitem.data.map(value => {
+  //   console.log('45525', value);
+  // });
 
   return (
     <SafeAreaView>

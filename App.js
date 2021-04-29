@@ -27,7 +27,7 @@ export default function App(props) {
     // <View style={{flex: 1}}>
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen
+        {/* <Stack.Screen
           name="TermAndCondition"
           component={TermAndCondition}
           options={{headerShown: false}}
@@ -37,8 +37,8 @@ export default function App(props) {
           name="Splash"
           component={Splash}
           options={{headerShown: false}}
-        />
-        <Stack.Screen name="ScreenHeader" component={ScreenHeader} />
+        /> */}
+        {/* <Stack.Screen name="ScreenHeader" component={ScreenHeader} /> */}
 
         <Stack.Screen
           name="Home"
